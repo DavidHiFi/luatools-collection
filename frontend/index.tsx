@@ -5,14 +5,33 @@ import { useState, useEffect } from "react"
 // - Button in context menu to remove/disable
 
 // @ts-ignore
-let store = collectionStore;
+let store: any;
 let pluginConfig = {
     name: "Lua Tools",
 	replace: true,
 	show_disabled: false
 };
 
-async function DoStuff() {
+let refreshTimer: ReturnType<typeof setInterval>;
+let refreshing = false;
+let lastSignature = "";
+
+function parseIds(raw: string): number[] {
+	let decoded = raw;
+	try {
+		const value = JSON.parse(raw);
+		if (typeof value === "string") decoded = value;
+	} catch { /* Older backends return plain CSV. */ }
+	return [...new Set(decoded.split(",").map(Number).filter(id => Number.isSafeInteger(id) && id > 0))].sort((a, b) => a - b);
+}
+
+async function DoStuff(force = true) {
+	if (refreshing) return;
+	refreshing = true;
+	try {
+	const ids = parseIds(await callable<[{ showDisabled: boolean }], string>('luatools_get_ids')({showDisabled: pluginConfig.show_disabled}));
+	const signature = JSON.stringify([pluginConfig, ids]);
+	if (!force && signature === lastSignature) return;
 	console.log("[luatools-collection] Refreshing collection")
 
 	const coll = store.GetUserCollectionsByName(pluginConfig.name)?.[0] || store.NewUnsavedCollection(pluginConfig.name, null, []) 
@@ -25,12 +44,6 @@ async function DoStuff() {
 		coll.RemoveApps([...coll.allApps]);
 	}
 
-	const ids = (await callable<[{ showDisabled: boolean }], string>('luatools_get_ids')({showDisabled: pluginConfig.show_disabled}))
-		.split(",")
-		.map(Number);
-	
-	// coll.AddApps(ids)
-
 	for (const id of ids) {
 		coll.m_setAddedManually.add(id)
 		coll.apps.add(id)
@@ -38,6 +51,10 @@ async function DoStuff() {
 
 	coll.Save()
 	store.SaveCollection(coll)
+	lastSignature = signature;
+	} finally {
+		refreshing = false;
+	}
 }
 
 // function AddRemoveButton(){
@@ -72,6 +89,7 @@ async function pluginMain() {
     console.log("[luatools-collection] Merged config:", pluginConfig);
 
 	await DoStuff()
+	refreshTimer = setInterval(() => { DoStuff(false).catch(console.error); }, 15000);
 
 }
 
@@ -154,6 +172,7 @@ export default definePlugin(async () => {
 	return {
 		title: "Lua Tools Collection",
 		icon: <IconsModule.Settings />,
-		content: <SettingsContent />
+		content: <SettingsContent />,
+		onDismount: () => clearInterval(refreshTimer)
 	}
 })

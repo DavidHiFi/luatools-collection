@@ -1,0 +1,31 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const code=fs.readFileSync(require('node:path').join(__dirname,'../.millennium/Dist/index.js'),'utf8');
+let result='10180,1174180', fail=false, saves=0, tick, cleared=false;
+const coll={apps:new Set(),m_setAddedManually:new Set(),get allApps(){return [...this.apps];},RemoveApps(ids){for(const id of ids){this.apps.delete(id);this.m_setAddedManually.delete(id);}},Save(){saves++;}};
+const store={GetUserCollectionsByName:()=>[coll],SaveCollection() {}};
+const react={createElement:(type,props,...children)=>({type,props:{...props,children}}),useState:initial=>[initial,()=>{}],useEffect:()=>{}};
+const api={callable:()=>async()=>{if(fail)throw new Error('backend unavailable');return result;},definePlugin:fn=>fn,IconsModule:{Settings:'Settings'},Field:'Field',Toggle:'Toggle',TextField:'TextField'};
+const window={SP_REACT:react,MILLENNIUM_API:api};
+const errors=[];
+const context=vm.createContext({window,MILLENNIUM_API:api,collectionStore:store,App:{WaitForServicesInitialized:async()=>{}},localStorage:{getItem:()=>null,setItem(){}},console:{log(){},error:e=>errors.push(e)},Millennium:{},MILLENNIUM_BACKEND_IPC:{postMessage(){}},setInterval:(fn,ms)=>{assert.equal(ms,15000);tick=fn;return 123;},clearInterval:id=>{assert.equal(id,123);cleared=true;},setTimeout});
+const flush=()=>new Promise(resolve=>setImmediate(resolve));
+(async()=>{
+ vm.runInContext(code,context);await flush();
+ assert.deepEqual([...coll.apps],[10180,1174180]);assert.equal(saves,1);
+ tick();await flush();assert.equal(saves,1,'unchanged directory should not rewrite collection');
+ result='"10180,1174180,527340"';tick();await flush();assert(coll.apps.has(527340));assert.equal(saves,2);
+ fail=true;tick();await flush();assert.equal(saves,2);assert(coll.apps.has(527340));assert.equal(errors.length,1);
+ fail=false;result='1174180';tick();await flush();assert.deepEqual([...coll.apps],[1174180]);
+ result='';tick();await flush();assert.equal(coll.apps.size,0);assert(!coll.apps.has(0));
+ const entry=window.MILLENNIUM_SIDEBAR_NAVIGATION_PANELS['luatools-collection'];
+ const content=entry.content.type();
+ const controls=content.props.children.filter(c=>typeof c.type==='function');
+ assert.deepEqual(controls.map(c=>c.props.label),['Collection name','Empty the collection before adding','Show disabled games','Refresh collection']);
+ // Changing the replace setting retains existing manually added apps.
+ coll.apps.add(99);const replaceToggle=controls[1].type(controls[1].props).props.children[0];replaceToggle.props.onChange(false);
+ result='527340';tick();await flush();assert(coll.apps.has(99));assert(coll.apps.has(527340));
+ const disabledToggle=controls[2].type(controls[2].props).props.children[0];disabledToggle.props.onChange(true);tick();await flush();
+ const manual=controls[3].props.action;const count=saves;await manual();assert.equal(saves,count+1);
+ entry.onDismount();assert(cleared);
+ console.log('PASS: startup, unchanged poll, added game, removal, backend failure preservation, empty directory, all four settings, replace=false, settings-triggered poll, manual refresh, unload cleanup.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

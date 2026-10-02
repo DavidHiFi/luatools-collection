@@ -4,6 +4,6 @@
 	"name": "luatools-collection",
 	"common_name": "Lua Tools Collection",
 	"description": "Adds a 'dynamic' collection for Lua Tools added games.",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"backendType": "lua"
 }

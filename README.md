@@ -2,7 +2,9 @@
 
 A Millennium plugin that creates a Steam library collection named **Lua Tools** from the Lua scripts in Steam's `config/stplug-in` directory.
 
-This is a renamed copy of the locally installed Steamtools collection plugin. Its collection refresh, replacement, disabled-game setting, and Lua script discovery behavior are unchanged. It refreshes at startup and through the plugin's Refresh collection setting.
+This fork preserves the original Steamtools collection plugin's four settings: Collection name, Empty the collection before adding, Show disabled games, and Refresh collection. Version 0.0.2 also checks the Lua script list every 15 seconds and refreshes when the list or settings change. New games appear without restarting Steam. Unchanged checks do not rewrite the collection, and a failed backend request leaves the existing collection intact.
+
+The parser accepts both plain CSV and Millennium's JSON-quoted CSV response. This fixes the original bug that dropped the last game from the returned list. Empty lists do not add a bogus app ID zero.
 
 ## Install
 

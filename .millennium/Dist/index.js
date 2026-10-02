@@ -16,13 +16,27 @@ function __wrapped_callable__(route) {
 let PluginEntryPointMain = function() { var millennium_main = (function (exports, client, react) {
 	'use strict';
 
-	let store = collectionStore;
+	let store;
 	let pluginConfig = {
 	  name: "Lua Tools",
 	  replace: true,
 	  show_disabled: false
 	};
-	async function DoStuff() {
+	let refreshTimer;
+  let refreshing = false;
+  let lastSignature = "";
+  function parseIds(raw) {
+    let decoded = raw;
+    try { const value = JSON.parse(raw); if (typeof value === "string") decoded = value; } catch {}
+    return [...new Set(decoded.split(",").map(Number).filter(id => Number.isSafeInteger(id) && id > 0))].sort((a, b) => a - b);
+  }
+  async function DoStuff(force = true) {
+    if (refreshing) return;
+    refreshing = true;
+    try {
+      const ids = parseIds(await __wrapped_callable__("luatools_get_ids")({ showDisabled: pluginConfig.show_disabled }));
+      const signature = JSON.stringify([pluginConfig, ids]);
+      if (!force && signature === lastSignature) return;
 	  console.log("[luatools-collection] Refreshing collection");
 	  const coll = store.GetUserCollectionsByName(pluginConfig.name)?.[0] || store.NewUnsavedCollection(pluginConfig.name, null, []);
 	  if (!coll) {
@@ -31,14 +45,16 @@ let PluginEntryPointMain = function() { var millennium_main = (function (exports
 	  if (pluginConfig.replace) {
 	    coll.RemoveApps([...coll.allApps]);
 	  }
-	  const ids = (await __wrapped_callable__("luatools_get_ids")({ showDisabled: pluginConfig.show_disabled })).split(",").map(Number);
+	
 	  for (const id of ids) {
 	    coll.m_setAddedManually.add(id);
 	    coll.apps.add(id);
 	  }
 	  coll.Save();
 	  store.SaveCollection(coll);
-	}
+      lastSignature = signature;
+    } finally { refreshing = false; }
+  }
 	async function pluginMain() {
 	  console.log("[luatools-collection] Frontend startup");
 	  await App.WaitForServicesInitialized();
@@ -53,7 +69,8 @@ let PluginEntryPointMain = function() { var millennium_main = (function (exports
 	  pluginConfig = { ...pluginConfig, ...storedConfig };
 	  console.log("[luatools-collection] Merged config:", pluginConfig);
 	  await DoStuff();
-	}
+    refreshTimer = setInterval(() => { DoStuff(false).catch(console.error); }, 15000);
+  }
 	const SingleSetting = (props) => {
 	  const [boolValue, setBoolValue] = react.useState(false);
 	  const [isDisabled, setIsDisabled] = react.useState(false);
@@ -104,7 +121,8 @@ let PluginEntryPointMain = function() { var millennium_main = (function (exports
 	  return {
 	    title: "Lua Tools Collection",
 	    icon: /* @__PURE__ */ window.SP_REACT.createElement(client.IconsModule.Settings, null),
-	    content: /* @__PURE__ */ window.SP_REACT.createElement(SettingsContent, null)
+	    content: /* @__PURE__ */ window.SP_REACT.createElement(SettingsContent, null),
+    onDismount: () => clearInterval(refreshTimer)
 	  };
 	});
 

@@ -1,7 +1,8 @@
 {
 	"scripts": {
 		"dev": "millennium-ttc --build dev",
-		"build": "millennium-ttc --build prod"
+		"build": "millennium-ttc --build prod",
+		"test": "node tests/verify-dynamic.cjs"
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.26.0",
@@ -12,7 +13,7 @@
 	},
 	"type": "module",
 	"name": "luatools-collection",
-	"version": "3.0.0",
+	"version": "0.0.2",
 	"description": "Extra functionality for collections",
 	"main": "./frontend/index.tsx",
 	"author": "luthor112",

@@ -45,7 +45,7 @@ let PluginEntryPointMain = function() { var millennium_main = (function (exports
 	  if (pluginConfig.replace) {
 	    coll.RemoveApps([...coll.allApps]);
 	  }
-	
+
 	  for (const id of ids) {
 	    coll.m_setAddedManually.add(id);
 	    coll.apps.add(id);

@@ -20,6 +20,22 @@ The default collection name is `Lua Tools`. You can change it in the plugin sett
 
 The repository includes the renamed, prebuilt frontend in `.millennium/Dist/index.js`, so the release ZIP needs no build step. To rebuild from source, run `pnpm install --frozen-lockfile` and `pnpm build`.
 
+## Contributing
+
+Bug reports, feature ideas and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, checks and what to include.
+
+## Star history
+
+⭐ Thanks for the stars and plugin reports.
+
+<a href="https://www.star-history.com/?repos=DavidHiFi%2Fluatools-collection&amp;type=date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=DavidHiFi/luatools-collection&amp;type=date&amp;theme=dark&amp;legend=top-left" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=DavidHiFi/luatools-collection&amp;type=date" />
+    <img alt="DavidHiFi/luatools-collection GitHub star history" src="https://api.star-history.com/chart?repos=DavidHiFi/luatools-collection&amp;type=date" />
+  </picture>
+</a>
+
 ## Credits and license
 
 Recovered from the user's installed copy of `clemdotla/steamtools-collection`.

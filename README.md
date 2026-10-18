@@ -1,32 +1,71 @@
+<div align="center">
+
+<img src="https://socialify.git.ci/DavidHiFi/luatools-collection/image?description=1&font=Inter&language=1&name=1&owner=1&pattern=Plus&theme=Dark" alt="Lua Tools Collection by DavidHiFi" width="100%">
+
 # Lua Tools Collection
 
-A Millennium plugin that creates a Steam library collection named **Lua Tools** from the Lua scripts in Steam's `config/stplug-in` directory.
+**A Millennium plugin that creates a Steam library collection named Lua Tools from Steam's config/stplug-in Lua scripts.**
 
-This fork preserves the original Steamtools collection plugin's four settings: Collection name, Empty the collection before adding, Show disabled games, and Refresh collection. Version 0.0.2 also checks the Lua script list every 15 seconds and refreshes when the list or settings change. New games appear without restarting Steam. Unchanged checks do not rewrite the collection, and a failed backend request leaves the existing collection intact.
+Preserves the original Steamtools collection plugin's four settings and refreshes every 15 seconds when the list or settings change.
 
-The parser accepts both plain CSV and Millennium's JSON-quoted CSV response. This fixes the original bug that dropped the last game from the returned list. Empty lists do not add a bogus app ID zero.
+<a href="https://github.com/DavidHiFi/luatools-collection/releases/latest">
+<img src="https://img.shields.io/badge/%E2%9C%93%EF%B8%8F%20DOWNLOAD%20LATEST%20RELEASE-2EA043?style=for-the-badge&labelColor=161B22" alt="Download the latest release" height="42">
+</a>
 
-## Install
+<br><br>
+
+<img src="https://img.shields.io/github/v/release/DavidHiFi/luatools-collection?style=flat-square&label=version&color=8957E5&labelColor=161B22" alt="Latest version">
+<img src="https://img.shields.io/github/downloads/DavidHiFi/luatools-collection/total?style=flat-square&label=downloads&color=1F6FEB&labelColor=161B22" alt="Total downloads">
+<img src="https://img.shields.io/badge/platform-Steam%20%7C%20Windows-DB6D28?style=flat-square&labelColor=161B22" alt="Platforms: Steam and Windows">
+
+</div>
+
+---
+
+## Installation
 
 1. Install [Millennium](https://steambrew.app).
 2. Download [luatools-collection.zip](https://github.com/DavidHiFi/luatools-collection/releases/latest/download/luatools-collection.zip).
-3. Extract the `luatools-collection` folder into Steam's `millennium/plugins` folder. On a default Windows installation, this is `C:\Program Files (x86)\Steam\millennium\plugins`.
-4. Restart Steam when convenient, then enable **Lua Tools Collection** under Steam > Millennium > Plugins.
-5. Disable the original Steamtools collection plugin if you want only the Lua Tools collection to refresh.
-
-The default collection name is `Lua Tools`. You can change it in the plugin settings. The plugin only reads script filenames and updates a library collection. It does not download games, generate manifests, or modify the Lua scripts.
+3. Extract into Steam's `millennium/plugins` folder (default: `C:\Program Files (x86)\Steam\millennium\plugins`).
+4. Restart Steam and enable **Lua Tools Collection** under Steam > Millennium > Plugins.
 
 ## Build
 
-The repository includes the renamed, prebuilt frontend in `.millennium/Dist/index.js`, so the release ZIP needs no build step. To rebuild from source, run `pnpm install --frozen-lockfile` and `pnpm build`.
+The release ZIP needs no build (prebuilt in `.millennium/Dist/`). To rebuild: `pnpm install --frozen-lockfile && pnpm build`.
+
+---
+
+## Features
+
+- Creates a library collection named **Lua Tools** from Lua scripts.
+- Refreshes every 15 seconds when the script list or settings change.
+- Checks both plain CSV and Millennium's JSON-quoted CSV.
+- Fixes the original bug that dropped the last game.
+
+## Notes
+
+> [!NOTE]
+> Only reads script filenames; it does not download games or modify Lua scripts.
+
+---
+
+## Support development
+
+This plugin is free and always will be. A coffee keeps it going.
+
+[![Support DavidHiFi on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/davidhifi)
 
 ## Contributing
 
-Bug reports, feature ideas and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, checks and what to include.
+Bug reports, feature ideas and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+<a href="CONTRIBUTING.md">
+<img src="https://img.shields.io/badge/%F0%9F%A4%9D%20HOW%20TO%20CONTRIBUTE-8957E5?style=for-the-badge&labelColor=161B22" alt="How to contribute" height="36">
+</a>
 
 ## Star history
 
-⭐ Thanks for the stars and plugin reports.
+Thanks for the stars and plugin reports.
 
 <a href="https://www.star-history.com/?repos=DavidHiFi%2Fluatools-collection&amp;type=date">
   <picture>
@@ -36,14 +75,22 @@ Bug reports, feature ideas and pull requests are welcome. See [CONTRIBUTING.md](
   </picture>
 </a>
 
-## Credits and license
+## Credits
 
-Recovered from the user's installed copy of `clemdotla/steamtools-collection`.
-
-- Original plugin: clem.la / clemdotla.
-- Original package author: [luthor112](https://github.com/luthor112).
+- **Author:** Myself, [DavidHiFi](https://github.com/DavidHiFi)
+- Original plugin: clem.la / clemdotla. See plugin folder for original license.
 - Inspiration: [Steam Librarian](https://github.com/luthor112/steam-librarian) and [Steam Collections Plus](https://github.com/luthor112/steam-collections-plus).
 - [Millennium / Steambrew](https://steambrew.app).
-- Renamed distribution: DavidHiFi.
 
-The recovered package declares the MIT license in `package.json`. The original installed files did not include a separate license file. See `LICENSE` for the MIT terms and original contributor attribution.
+Built on Steam with Millennium, pnpm and the original plugin's build setup.
+
+> Missing or wrong credit? [Open an issue](https://github.com/DavidHiFi/luatools-collection/issues/new) and I'll fix it.
+
+## Disclaimers
+
+Most of this project's code was developed with AI coding agents. See `git log` for agent trailers and commit messages.
+
+<div align="center">
+<br>
+<sub>Not affiliated with Steam, Steamworks, Millennium or clemdotla. Requires Steam and the Millennium plugin framework.</sub>
+</div>

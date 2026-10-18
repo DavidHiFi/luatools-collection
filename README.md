@@ -4,12 +4,12 @@
 
 # Lua Tools Collection
 
-**A Millennium plugin that creates a Steam library collection named Lua Tools from Steam's config/stplug-in Lua scripts.**
+**A Millennium plugin that groups every game with a Lua Tools script into one Steam library collection.**
 
-Preserves the original Steamtools collection plugin's four settings and refreshes every 15 seconds when the list or settings change.
+It keeps itself up to date while Steam runs.
 
 <a href="https://github.com/DavidHiFi/luatools-collection/releases/latest">
-<img src="https://img.shields.io/badge/%E2%9C%93%EF%B8%8F%20DOWNLOAD%20LATEST%20RELEASE-2EA043?style=for-the-badge&labelColor=161B22" alt="Download the latest release" height="42">
+<img src="https://img.shields.io/badge/%E2%AC%87%EF%B8%8F%20DOWNLOAD%20LATEST%20RELEASE-2EA043?style=for-the-badge&labelColor=161B22" alt="Download the latest release" height="42">
 </a>
 
 <br><br>
@@ -29,23 +29,26 @@ Preserves the original Steamtools collection plugin's four settings and refreshe
 3. Extract into Steam's `millennium/plugins` folder (default: `C:\Program Files (x86)\Steam\millennium\plugins`).
 4. Restart Steam and enable **Lua Tools Collection** under Steam > Millennium > Plugins.
 
-## Build
-
-The release ZIP needs no build (prebuilt in `.millennium/Dist/`). To rebuild: `pnpm install --frozen-lockfile && pnpm build`.
-
----
-
 ## Features
 
-- Creates a library collection named **Lua Tools** from Lua scripts.
-- Refreshes every 15 seconds when the script list or settings change.
-- Checks both plain CSV and Millennium's JSON-quoted CSV.
-- Fixes the original bug that dropped the last game.
+- **Lua Tools collection:** every game with a script in `config/stplug-in` lands in one library collection.
+- **Stays current:** checks every 15 seconds and updates the collection when scripts or settings change.
+- **Original settings kept:** the four settings from the Steamtools plugin still work.
+- **Last game fixed:** the original plugin skipped the last game in the list; this one does not.
 
-## Notes
+<details>
+<summary><b>Building from source</b></summary>
 
-> [!NOTE]
-> Only reads script filenames; it does not download games or modify Lua scripts.
+<br>
+
+The release ZIP is already built (`.millennium/Dist/`). To rebuild it:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm build
+```
+
+</details>
 
 ---
 
@@ -78,17 +81,21 @@ Thanks for the stars and plugin reports.
 ## Credits
 
 - **Author:** Myself, [DavidHiFi](https://github.com/DavidHiFi)
-- Original plugin: clem.la / clemdotla. See plugin folder for original license.
-- Inspiration: [Steam Librarian](https://github.com/luthor112/steam-librarian) and [Steam Collections Plus](https://github.com/luthor112/steam-collections-plus).
-- [Millennium / Steambrew](https://steambrew.app).
 
-Built on Steam with Millennium, pnpm and the original plugin's build setup.
+| Who | What |
+|---|---|
+| **clem.la (clemdotla)** | The original Steamtools collection plugin this one was recovered from (MIT). I could not find a live link; if you know it, open an issue. |
+| **luthor112** ([GitHub](https://github.com/luthor112)) | Co-author of the original plugin, and the [Steam Librarian](https://github.com/luthor112/steam-librarian) and [Steam Collections Plus](https://github.com/luthor112/steam-collections-plus) plugins it learned from. |
+
+Built on [Millennium](https://steambrew.app) for [Steam](https://store.steampowered.com), with [TypeScript](https://www.typescriptlang.org), [Lua](https://www.lua.org) and [pnpm](https://pnpm.io).
 
 > Missing or wrong credit? [Open an issue](https://github.com/DavidHiFi/luatools-collection/issues/new) and I'll fix it.
 
 ## Disclaimers
 
-Most of this project's code was developed with AI coding agents. See `git log` for agent trailers and commit messages.
+Most of this project's code was developed with AI coding agents, including Claude Code, Codex and OpenCode. No single AI agent made the project.
+
+The plugin only reads the script file names in Steam's `config/stplug-in` folder. It does not download games or change any scripts.
 
 <div align="center">
 <br>

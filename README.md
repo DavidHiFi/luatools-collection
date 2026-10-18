@@ -50,14 +50,6 @@ pnpm build
 
 </details>
 
----
-
-## Support development
-
-This plugin is free and always will be. A coffee keeps it going.
-
-[![Support DavidHiFi on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/davidhifi)
-
 ## Contributing
 
 Bug reports, feature ideas and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).

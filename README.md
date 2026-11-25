@@ -74,6 +74,15 @@ Thanks for the stars and plugin reports.
 
 - **Author:** Myself, [DavidHiFi](https://github.com/DavidHiFi)
 
+<!-- contributors:start -->
+- **AI coding agents:** [Claude Code](https://github.com/anthropics/claude-code), [Codex](https://github.com/openai/codex), [OpenCode](https://github.com/anomalyco/opencode) and Halo Sparks
+
+<p>
+  <a href="https://github.com/DavidHiFi"><img src="https://github.com/DavidHiFi.png?size=96" width="48" height="48" alt="DavidHiFi" title="DavidHiFi"></a>
+  <a href="https://github.com/anthropics/claude-code"><img src="https://github.com/claude.png?size=96" width="48" height="48" alt="Claude Code" title="Claude Code"></a>
+</p>
+<!-- contributors:end -->
+
 | Who | What |
 |---|---|
 | **clem.la (clemdotla)** | The original Steamtools collection plugin this one was recovered from (MIT). I could not find a live link; if you know it, open an issue. |
